@@ -162,7 +162,7 @@ CREATE TABLE `product` (
 --    FOREIGN KEY (`product_id`) REFERENCES `product`(`id`) ON DELETE CASCADE
 --);
 
---CREATE TABLE `likes` (
+--CREATE TABLE `like` (
 --    `id` BIGINT NOT NULL AUTO_INCREMENT,
 --    `user_id` BIGINT NOT NULL,
 --    `product_id` BIGINT NOT NULL,
