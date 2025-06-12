@@ -8,29 +8,29 @@ on:
       branches:
         - main
 
-  jobs:
-    build-and-test-spring:
-      name: Build and Test Spring Boot
-      runs-on: ubuntu-24.04.1
+jobs:
+  build-and-test-spring:
+    name: Build and Test Spring Boot
+    runs-on: ubuntu-24.04.1
 
-      steps:
-        - name: Checkout code
-          uses: actions/checkout@v4
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-        - name: Set up Java
-          uses: actions/setup-java@v4
-          with:
-            distribution: 'amazon-corretto'
-            java-version: '17'
-            cache: 'gradle'
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'amazon-corretto'
+          java-version: '17'
+          cache: 'gradle'
 
-        - name: Build Spring Boot application
-          run: |
-            chmod +x gradlew
-            ./gradlew clean build -x test
+      - name: Build Spring Boot application
+        run: |
+          chmod +x gradlew
+          ./gradlew clean build -x test
 
-        - name: Upload JAR artifact
-          uses: actions/upload-artifact@v4
-          with:
-            name: spring-boot-jar
-            path: target/*.jar
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: spring-boot-jar
+          path: target/*.jar
