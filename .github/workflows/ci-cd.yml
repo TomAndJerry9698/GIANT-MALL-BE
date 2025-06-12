@@ -1,0 +1,74 @@
+name : CD/CD
+
+on:
+  push:
+    branches:
+      - main
+    pull_request:
+      branches:
+        - main
+
+  jobs:
+    build-and-test-spring:
+      name: Build and Test Spring Boot
+      runs-on: ubuntu-24.04.1
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Set up Java
+          uses: actions/setup-java@v4
+          with:
+            distribution: 'amazon-corretto'
+            java-version: '17'
+            cache: 'gradle'
+
+        - name: Build Spring Boot application
+          run: |
+            chmod +x gradlew
+            ./gradlew clean build -x test
+
+        - name: Upload JAR artifact
+          uses: actions/upload-artifact@v4
+          with:
+            name: spring-boot-jar
+            path: target/*.jar
+
+    build-and-push-docker-image:
+      name: Build and Push Docker Image
+      needs: build-and-test-spring # Spring Boot 빌드 Job이 성공해야 실행
+      runs-on: ubuntu-24.04.1
+      if: github.event_name == 'push' && github.ref == 'refs/heads/main' # main 브랜치 푸시에만 실행
+
+      steps:
+        - name: Checkout code
+          uses: actions/checkout@v4
+
+        - name: Download JAR artifact
+          uses: actions/download-artifact@v4
+          with:
+            name: spring-boot-app
+            path: . # 현재 디렉토리로 다운로드
+
+        - name: Log in to Docker Hub
+          uses: docker/login-action@v3
+          with:
+            username: ${{ secrets.DOCKER_HUB_USERNAME }} # GitHub Secrets에 저장
+            password: ${{ secrets.DOCKER_HUB_TOKEN }} # GitHub Secrets에 저장 (Personal Access Token 권장)
+
+        - name: Get current date for image tag
+          id: date
+          run: echo "::set-output name=date::$(date +'%Y%m%d%H%M%S')"
+
+        - name: Build and push Docker image
+          uses: docker/build-push-action@v5
+          with:
+            context: .
+            push: true
+            tags: |
+              your-dockerhub-username/your-spring-app-name:latest
+              your-dockerhub-username/your-spring-app-name:${{ steps.date.outputs.date }}
+            # build-args: | # Dockerfile에 ARG가 있다면 여기에 추가
+            #   JAR_FILE=your-spring-app.jar # JAR 파일명 지정 (Dockerfile과 일치)
+            #   APP_PORT=8080
