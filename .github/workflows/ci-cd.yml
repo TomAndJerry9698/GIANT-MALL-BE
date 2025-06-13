@@ -39,7 +39,7 @@ jobs:
     name: Build and Push Docker Image
     needs: build-and-test-spring # Spring Boot 빌드 Job이 성공해야 실행
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/main' # main 브랜치 푸시에만 실행
+    if: github.event_name == 'push' && github.ref == 'refs/heads/config/github-actions' # main 브랜치 푸시에만 실행
 
     steps:
       - name: Checkout code
