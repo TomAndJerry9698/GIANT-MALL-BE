@@ -33,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: spring-boot-jar
-          path: target/*.jar
+          path: build/libs/*.jar
 
   build-and-push-docker-image:
     name: Build and Push Docker Image
