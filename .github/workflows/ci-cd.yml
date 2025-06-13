@@ -67,5 +67,5 @@ jobs:
           context: .
           push: true
           tags: |
-            your-dockerhub-username/your-spring-app-name:latest
-            your-dockerhub-username/your-spring-app-name:${{ steps.date.outputs.date }}
+            ongst52/giantmall:latest
+            ongst52/giantmall:${{ steps.date.outputs.date }}
