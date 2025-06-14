@@ -92,6 +92,8 @@ jobs:
             echo "Connecting to remote server and deploying..."
             cd ./giantmall/GIANT-MALL-BE/
             
+            git fetch origin
+            git switch -c config/github-actions
             git pull origin config/github-actions
             
             docker-compose pull
