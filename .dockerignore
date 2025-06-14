@@ -1,0 +1,28 @@
+# Git 관련 파일 제외
+.git
+.gitignore
+
+# Gradle 빌드 디렉토리 제외 (빌드 산출물이 많으므로 필요시 제외)
+.gradle
+build
+
+# IDE 설정 파일 제외
+*.iml
+.idea/
+.vscode/
+
+# OS별 임시 파일 제외
+.DS_Store
+Thumbs.db
+
+# 로그 파일 제외
+*.log
+
+# 환경 변수 및 민감 정보 제외
+.env
+*.pem
+*.key
+
+# 기타 불필요한 파일
+*.swp
+*.bak
