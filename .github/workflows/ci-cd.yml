@@ -37,9 +37,9 @@ jobs:
 
   build-and-push-docker-image:
     name: Build and Push Docker Image
-    needs: build-and-test-spring # Spring Boot 빌드 Job이 성공해야 실행
+    needs: build-and-test-spring
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/config/github-actions' # main 브랜치 푸시에만 실행
+    if: github.event_name == 'push' && github.ref == 'refs/heads/config/github-actions'
 
     steps:
       - name: Checkout code
@@ -49,13 +49,13 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: spring-boot-jar
-          path: . # 현재 디렉토리로 다운로드
+          path: .
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
         with:
-          username: ${{ secrets.DOCKER_HUB_USERNAME }} # GitHub Secrets에 저장
-          password: ${{ secrets.DOCKER_HUB_TOKEN }} # GitHub Secrets에 저장 (Personal Access Token 권장)
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_TOKEN }}
 
       - name: Get current date for image tag
         id: date
