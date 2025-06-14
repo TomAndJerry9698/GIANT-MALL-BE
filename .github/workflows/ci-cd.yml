@@ -93,7 +93,6 @@ jobs:
             cd ./giantmall/GIANT-MALL-BE/
             
             git fetch origin
-            git switch config/github-actions
             git reset --hard origin/config/github-actions
             
             sudo docker-compose pull
