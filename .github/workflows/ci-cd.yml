@@ -3,7 +3,7 @@ name : CI/CD
 on:
   push:
     branches:
-      - config/github-actions
+      - main
     pull_request:
       branches:
         - main
@@ -39,7 +39,7 @@ jobs:
     name: Build and Push Docker Image
     needs: build-and-test-spring
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/config/github-actions'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
@@ -75,7 +75,7 @@ jobs:
     name: Deploy to Remote Server
     needs: build-and-push-docker-image
     runs-on: ubuntu-latest
-    if: github.event_name == 'push' && github.ref == 'refs/heads/config/github-actions'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
       - name: Checkout code
@@ -93,7 +93,7 @@ jobs:
             cd ./giantmall/GIANT-MALL-BE/
             
             git fetch origin
-            git reset --hard origin/config/github-actions
+            git reset --hard origin/main
             
             sudo docker-compose pull
             sudo docker-compose down
