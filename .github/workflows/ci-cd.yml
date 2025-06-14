@@ -89,7 +89,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             echo "Connecting to remote server and deploying..."
-            cd /home/GA/giantmall/GIANT-MALL-BE/
+            cd ./giantmall/GIANT-MALL-BE/
             
             git pull origin config/github-actions
             
