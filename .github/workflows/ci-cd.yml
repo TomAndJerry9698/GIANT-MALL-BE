@@ -93,7 +93,7 @@ jobs:
             cd ./giantmall/GIANT-MALL-BE/
             
             git fetch origin
-            git switch -c config/github-actions
+            git switch config/github-actions
             git pull origin config/github-actions
             
             docker-compose pull
