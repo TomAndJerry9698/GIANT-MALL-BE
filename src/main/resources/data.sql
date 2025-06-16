@@ -1,12 +1,12 @@
 -- user 테이블 샘플 데이터 (실서비스에서는 암호화 필요)
-INSERT INTO `user` (`email`, `password`, `name`, `phone`, `role`, `created_at`, `updated_at`)
+INSERT IGNORE INTO `user` (`email`, `password`, `name`, `phone`, `role`, `created_at`, `updated_at`)
 VALUES
 ('buyer@naver.com',  'buyer123!', '송어진',  '01012345601', 'BUYER',  NOW(), NULL),
 ('seller@naver.com', 'seller123!', '오승택', '01012345602', 'SELLER', NOW(), NULL),
 ('admin@naver.com',  'admin123!',  '김관리',  '01012345603', 'ADMIN',  NOW(), NULL);
 
 -- product 테이블 샘플 데이터
-INSERT INTO `product` (`name`, `description`, `price`, `category_id`, `seller_id`, `created_at`, `updated_at`)
+INSERT IGNORE INTO `product` (`name`, `description`, `price`, `category_id`, `seller_id`, `created_at`, `updated_at`)
 VALUES
 ('유기농 사과',        '신선한 국내산 유기농 사과입니다.',                    12000.00, NULL, 2,  NOW(), NULL),
 ('블루투스 스피커',    '고출력 무선 블루투스 스피커.',                        55000.00, NULL, 2,  NOW(), NULL),
