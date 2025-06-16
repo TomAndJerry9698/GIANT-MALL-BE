@@ -71,7 +71,7 @@ CREATE TABLE IF NOT EXISTS `product` (
 
 --    FOREIGN KEY (category_id) REFERENCES category(id),
 --    FOREIGN KEY (seller_id)   REFERENCES user(id),
-    PRIMARY KEY (`id`).unique
+    PRIMARY KEY (`id`)
 );
 
 --CREATE TABLE IF NOT EXISTS `cart` (
