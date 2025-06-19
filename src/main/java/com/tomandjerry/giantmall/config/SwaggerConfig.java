@@ -7,12 +7,13 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class SwaggerConfig {
-  @Bean
-  public OpenAPI openAPI() {
-    return new OpenAPI()
-        .info(new Info()
-            .title("Giant Mall 프로젝트 API")
-            .description("Giant Mall 프로젝트의 API 명세서입니다.")
-            .version("1.0.0"));
-  }
+
+    @Bean
+    public OpenAPI openAPI() {
+        return new OpenAPI()
+            .info(new Info()
+                .title("Giant Mall 프로젝트 API")
+                .description("Giant Mall 프로젝트의 API 명세서입니다.")
+                .version("1.0.0"));
+    }
 }
