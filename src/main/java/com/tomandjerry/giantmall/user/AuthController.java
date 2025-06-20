@@ -1,7 +1,11 @@
 package com.tomandjerry.giantmall.user;
 
 import com.tomandjerry.giantmall.config.JwtTokenProvider;
+import com.tomandjerry.giantmall.user.dto.LoginRequest;
+import com.tomandjerry.giantmall.user.dto.SignUpRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,9 +23,18 @@ public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserService userService;
+
+    @PostMapping("/signup")
+    public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+        userService.signUp(signUpRequest);
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body("회원가입이 성공적으로 완료되었습니다.");
+    }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<String> login(@RequestBody LoginRequest loginRequest) {
 
         // 1. AuthenticationManager에게 인증 위임
         Authentication authentication = authenticationManager.authenticate(
@@ -37,16 +50,6 @@ public class AuthController {
         // 3. JWT 토큰 생성
         String accessToken = jwtTokenProvider.createToken(authentication);
 
-        return ResponseEntity.ok(new LoginResponse(accessToken));
-    }
-
-    // 로그인 요청 DTO
-    public record LoginRequest(String email, String password) {
-
-    }
-
-    // 로그인 응답 DTO
-    public record LoginResponse(String accessToken) {
-
+        return ResponseEntity.ok(accessToken);
     }
 }
