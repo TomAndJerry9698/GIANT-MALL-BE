@@ -1,6 +1,6 @@
-package com.tomandjerry.giantmall.common.config.exception;
+package com.tomandjerry.giantmall.common.exception;
 
-import com.tomandjerry.giantmall.common.config.dto.ApiResponseDto;
+import com.tomandjerry.giantmall.common.dto.ApiResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;

@@ -1,4 +1,4 @@
-package com.tomandjerry.giantmall.common.config.config;
+package com.tomandjerry.giantmall.common.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

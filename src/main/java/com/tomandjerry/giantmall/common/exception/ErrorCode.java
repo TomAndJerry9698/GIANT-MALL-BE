@@ -1,4 +1,4 @@
-package com.tomandjerry.giantmall.common.config.exception;
+package com.tomandjerry.giantmall.common.exception;
 
 import org.springframework.http.HttpStatus;
 

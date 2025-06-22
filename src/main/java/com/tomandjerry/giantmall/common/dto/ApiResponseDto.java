@@ -1,4 +1,4 @@
-package com.tomandjerry.giantmall.common.config.dto;
+package com.tomandjerry.giantmall.common.dto;
 
 import lombok.Builder;
 
