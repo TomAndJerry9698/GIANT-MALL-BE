@@ -32,6 +32,8 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
+    @Operation(summary = "회원가입", description = "새로운 사용자를 시스템에 등록합니다.")
+    @ApiResponse(responseCode = "201", description = "회원가입 성공", content = @Content(schema = @Schema(implementation = String.class)))
     @PostMapping("/signup")
     public ResponseEntity<String> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
         userService.signUp(signUpRequest);
