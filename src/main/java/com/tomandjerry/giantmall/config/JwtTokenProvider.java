@@ -29,8 +29,7 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private final SecretKey secretKey;
     private final long tokenValidityInMilliseconds;
-
-    // JwtTokenProvider가 스프링 빈으로 등록될 때 생성자가 호출됨
+    
     // @Value : 설정 파일(application.yml)에 정의된 값을 자바 코드의 변수로 직접 주입
     public JwtTokenProvider(
         @Value("${jwt.secret}") String secret,

@@ -78,7 +78,7 @@ public class AuthController {
     @Operation(summary = "로그아웃", description = "로그아웃하고 쿠키에 저장된 JWT를 삭제합니다.")
     @ApiResponse(responseCode = "200", description = "로그아웃 및 토큰 삭제", content = @Content(schema = @Schema(implementation = String.class)))
     public ResponseEntity<String> logout(HttpServletResponse response) {
-        // maxAge가 0인 쿠키를 설정해 쿠키를 삭제
+
         ResponseCookie cookie = ResponseCookie.from("accessToken", "")
             .path("/")
             .httpOnly(true)
