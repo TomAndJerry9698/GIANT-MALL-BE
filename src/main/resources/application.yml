@@ -25,3 +25,7 @@ spring:
   properties:
     hibernate:
       format_sql: true
+
+jwt:
+  secret: V2hhdElzVGhpc1NlY3JldEtleUZvckpXVEF1dGhlbnRpY2F0aW9uPw==
+  token-validity-in-seconds: 86400 # 24시간
