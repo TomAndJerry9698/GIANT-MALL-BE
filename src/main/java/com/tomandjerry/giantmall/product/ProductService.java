@@ -1,7 +1,7 @@
 package com.tomandjerry.giantmall.product;
 
-import com.tomandjerry.giantmall.common.config.exception.CustomException;
-import com.tomandjerry.giantmall.common.config.exception.ErrorCode;
+import com.tomandjerry.giantmall.common.exception.CustomException;
+import com.tomandjerry.giantmall.common.exception.ErrorCode;
 import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
 import com.tomandjerry.giantmall.product.dto.ProductResponseDto;
 import jakarta.transaction.Transactional;

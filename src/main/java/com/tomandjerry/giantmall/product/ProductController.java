@@ -1,6 +1,6 @@
 package com.tomandjerry.giantmall.product;
 
-import com.tomandjerry.giantmall.common.config.dto.ApiResponseDto;
+import com.tomandjerry.giantmall.common.dto.ApiResponseDto;
 import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
 import com.tomandjerry.giantmall.product.dto.ProductResponseDto;
 import io.swagger.v3.oas.annotations.Operation;
