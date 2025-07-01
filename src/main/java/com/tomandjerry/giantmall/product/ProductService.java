@@ -4,6 +4,8 @@ import com.tomandjerry.giantmall.common.exception.CustomException;
 import com.tomandjerry.giantmall.common.exception.ErrorCode;
 import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
 import com.tomandjerry.giantmall.product.dto.ProductResponseDto;
+import com.tomandjerry.giantmall.user.User;
+import com.tomandjerry.giantmall.user.UserRole;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,22 +19,28 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    public ProductResponseDto createProduct(ProductCreateDto dto) {
-        Product product = dto.toEntity();
+    public ProductResponseDto createProduct(User user, ProductCreateDto dto) {
+
+        validateRolePermission(user);
+        Product product = dto.toEntity(user);
         Product saved = productRepository.save(product);
         return ProductResponseDto.toDto(saved);
     }
 
     @Transactional
-    public ProductResponseDto updateProduct(Long id, ProductCreateDto dto) {
+    public ProductResponseDto updateProduct(User user, Long id, ProductCreateDto dto) {
         Product product = findById(id);
+        validateProductOwnerPermission(user, product);
+
         product.update(dto);
         return ProductResponseDto.toDto(product);
     }
 
     @Transactional
-    public void deleteProduct(Long id) {
+    public void deleteProduct(User user, Long id) {
         Product product = findById(id);
+        validateProductOwnerPermission(user, product);
+
         productRepository.delete(product);
     }
 
@@ -46,6 +54,23 @@ public class ProductService {
         return productList.stream()
                 .map(ProductResponseDto::toDto)
                 .collect(Collectors.toList());
+    }
+
+    private void validateRolePermission(User user) {
+        boolean isSeller = user.getRole() == UserRole.SELLER;
+        boolean isAdmin = user.getRole() == UserRole.ADMIN;
+        if(!(isSeller || isAdmin)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
+    }
+
+    private void validateProductOwnerPermission(User user, Product product) {
+        boolean isOwner = product.getUser().getId().equals(user.getId());
+        boolean isAdmin = user.getRole() == UserRole.ADMIN;
+
+        if(!(isOwner || isAdmin)) {
+            throw new CustomException(ErrorCode.FORBIDDEN);
+        }
     }
 
     private Product findById(Long id) {
