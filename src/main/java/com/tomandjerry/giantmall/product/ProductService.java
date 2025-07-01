@@ -4,6 +4,7 @@ import com.tomandjerry.giantmall.common.exception.CustomException;
 import com.tomandjerry.giantmall.common.exception.ErrorCode;
 import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
 import com.tomandjerry.giantmall.product.dto.ProductResponseDto;
+import com.tomandjerry.giantmall.product.dto.ProductUpdateDto;
 import com.tomandjerry.giantmall.user.User;
 import com.tomandjerry.giantmall.user.UserRole;
 import jakarta.transaction.Transactional;
@@ -28,7 +29,7 @@ public class ProductService {
     }
 
     @Transactional
-    public ProductResponseDto updateProduct(User user, Long id, ProductCreateDto dto) {
+    public ProductResponseDto updateProduct(User user, Long id, ProductUpdateDto dto) {
         Product product = findById(id);
         validateProductOwnerPermission(user, product);
 

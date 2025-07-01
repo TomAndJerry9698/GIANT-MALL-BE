@@ -1,7 +1,7 @@
 package com.tomandjerry.giantmall.product;
 
 import com.tomandjerry.giantmall.common.entity.DateBaseEntity;
-import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
+import com.tomandjerry.giantmall.product.dto.ProductUpdateDto;
 import com.tomandjerry.giantmall.user.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -57,7 +57,7 @@ public class Product extends DateBaseEntity {
         this.user = user;
     }
 
-    public void update(ProductCreateDto dto) {
+    public void update(ProductUpdateDto dto) {
         this.name = dto.getName();
         this.description = dto.getDescription();
         this.price = dto.getPrice();
