@@ -1,6 +1,7 @@
 package com.tomandjerry.giantmall.product;
 
 import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
+import com.tomandjerry.giantmall.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -33,8 +34,9 @@ public class Product {
     @Column(nullable = false)
     private ProductStatus status;
 
-    @Column(name = "seller_id", nullable = false)
-    private Long sellerId;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     @CreationTimestamp
@@ -45,12 +47,12 @@ public class Product {
     private LocalDateTime updatedAt;
 
     @Builder
-    public Product(String name, String description, int price, ProductStatus status, Long sellerId) {
+    public Product(String name, String description, int price, ProductStatus status, User user) {
         this.name = name;
         this.description = description;
         this.price = price;
         this.status = status;
-        this.sellerId = sellerId;
+        this.user = user;
     }
 
     public void update(ProductCreateDto dto) {
