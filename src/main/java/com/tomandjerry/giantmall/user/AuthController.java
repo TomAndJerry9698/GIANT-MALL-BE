@@ -1,6 +1,6 @@
 package com.tomandjerry.giantmall.user;
 
-import com.tomandjerry.giantmall.config.JwtTokenProvider;
+import com.tomandjerry.giantmall.common.jwt.JwtTokenProvider;
 import com.tomandjerry.giantmall.user.dto.LoginRequest;
 import com.tomandjerry.giantmall.user.dto.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
