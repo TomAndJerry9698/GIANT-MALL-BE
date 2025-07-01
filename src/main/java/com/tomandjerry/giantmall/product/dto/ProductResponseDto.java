@@ -17,6 +17,7 @@ public class ProductResponseDto {
     private String status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String username;
 
     public static ProductResponseDto toDto(Product entity) {
         return ProductResponseDto.builder()
@@ -26,6 +27,7 @@ public class ProductResponseDto {
             .price(entity.getPrice())
             .createdAt(entity.getCreatedAt())
             .updatedAt(entity.getUpdatedAt())
+            .username(entity.getUser().getName())
             .build();
     }
 }
