@@ -3,9 +3,10 @@ package com.tomandjerry.giantmall.common.exception;
 import com.tomandjerry.giantmall.common.dto.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@RestControllerAdvice
+@RestControllerAdvice(annotations = {RestController.class}, basePackages = {"com.tomandjerry.giantmall.*"})
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(CustomException.class)
