@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
+    `name` VARCHAR(50),
     `phone` VARCHAR(13) NOT NULL,
     `role` ENUM('SELLER', 'BUYER', 'ADMIN') NOT NULL DEFAULT 'BUYER',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -36,11 +36,11 @@ CREATE TABLE IF NOT EXISTS `user` (
 CREATE TABLE IF NOT EXISTS `product` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `name` VARCHAR(100) NOT NULL,
-    `description` TEXT NULL,
+    `description` MEDIUMTEXT NULL,
 
     -- 가격 정보
     `price` DECIMAL(10,2) NOT NULL,
---    `discount_price` DECIMAL(10,2) NULL,
+--    `discount_price` INT NULL,
 --    `discount_start` DATETIME NULL,
 --    `discount_end` DATETIME NULL,
 
@@ -51,8 +51,8 @@ CREATE TABLE IF NOT EXISTS `product` (
 --    `barcode` VARCHAR(50) UNIQUE NULL,
 
     -- 상태·노출
---    status ENUM('AVAILABLE','OUT_OF_STOCK','DISCONTINUED','COMING_SOON')
---           NOT NULL DEFAULT 'AVAILABLE',
+    status ENUM('AVAILABLE') NOT NULL DEFAULT 'AVAILABLE',
+--    status ENUM('AVAILABLE','OUT_OF_STOCK','DISCONTINUED','COMING_SOON') NOT NULL DEFAULT 'AVAILABLE',
 --    is_visible  BOOLEAN NOT NULL DEFAULT TRUE,
 --    is_new      BOOLEAN NOT NULL DEFAULT FALSE,
 --    is_featured BOOLEAN NOT NULL DEFAULT FALSE,
@@ -64,13 +64,13 @@ CREATE TABLE IF NOT EXISTS `product` (
 
     -- 연관 FK
 --    category_id BIGINT NULL,
---    seller_id   BIGINT NOT NULL,
+    user_id   BIGINT NOT NULL,
 
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NULL,
 
 --    FOREIGN KEY (category_id) REFERENCES category(id),
---    FOREIGN KEY (seller_id)   REFERENCES user(id),
+    FOREIGN KEY (user_id)   REFERENCES user(id),
     PRIMARY KEY (`id`)
 );
 

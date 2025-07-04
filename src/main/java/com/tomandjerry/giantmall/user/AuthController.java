@@ -1,12 +1,13 @@
 package com.tomandjerry.giantmall.user;
 
-import com.tomandjerry.giantmall.config.JwtTokenProvider;
+import com.tomandjerry.giantmall.common.jwt.JwtTokenProvider;
 import com.tomandjerry.giantmall.user.dto.LoginRequest;
 import com.tomandjerry.giantmall.user.dto.SignUpRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+@Tag(name = "인증 API", description = "사용자 회원가입/로그인/로그아웃")
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor

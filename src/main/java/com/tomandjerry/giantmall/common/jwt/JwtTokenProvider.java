@@ -1,5 +1,6 @@
-package com.tomandjerry.giantmall.config;
+package com.tomandjerry.giantmall.common.jwt;
 
+import com.tomandjerry.giantmall.user.CustomUserDetailsService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -7,18 +8,15 @@ import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
 import java.util.stream.Collectors;
 import javax.crypto.SecretKey;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -26,15 +24,18 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
+    @Autowired
+    private final CustomUserDetailsService userDetailsService;
+
     private static final String AUTHORITIES_KEY = "auth";
     private final SecretKey secretKey;
     private final long tokenValidityInMilliseconds;
     
     // @Value : 설정 파일(application.yml)에 정의된 값을 자바 코드의 변수로 직접 주입
     public JwtTokenProvider(
-        @Value("${jwt.secret}") String secret,
-        @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds
+        @Value("${jwt.secret}") String secret, CustomUserDetailsService userDetailsService, @Value("${jwt.token-validity-in-seconds}") long tokenValidityInSeconds
     ) {
+        this.userDetailsService = userDetailsService;
         byte[] keyBytes = Decoders.BASE64.decode(secret);
         this.secretKey = Keys.hmacShaKeyFor(keyBytes);
         this.tokenValidityInMilliseconds = tokenValidityInSeconds * 1000;
@@ -65,22 +66,16 @@ public class JwtTokenProvider {
      * 토큰으로 Authentication 객체 생성 및 반환
      */
     public Authentication getAuthentication(String token) {
-        // 1. 토큰을 파싱하여 클레임(payload) 추출
         Claims claims = Jwts.parser()
             .verifyWith(secretKey)
             .build()
             .parseSignedClaims(token)
             .getPayload();
 
-        // 2. 클레임에서 권한 정보 추출
-        Collection<? extends GrantedAuthority> authorities =
-            Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
-                .map(SimpleGrantedAuthority::new)
-                .collect(Collectors.toList());
+        String email = claims.getSubject(); // sub
+        UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
-        // 3. UserDetails 객체를 만들어 Authentication 객체 반환
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
-        return new UsernamePasswordAuthenticationToken(principal, token, authorities);
+        return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
     }
 
     /**

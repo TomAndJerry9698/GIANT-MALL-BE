@@ -10,7 +10,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: none
+      ddl-auto: update
     show-sql: true
     properties:
       hibernate:
@@ -26,6 +26,16 @@ spring:
     hibernate:
       format_sql: true
 
+springdoc:
+  swagger-ui:
+    with-credentials: true
+
 jwt:
   secret: V2hhdElzVGhpc1NlY3JldEtleUZvckpXVEF1dGhlbnRpY2F0aW9uPw==
   token-validity-in-seconds: 86400 # 24시간
+
+logging:
+  level:
+    org.springdoc: DEBUG
+    org.springframework.web: DEBUG
+    io.swagger.v3: DEBUG

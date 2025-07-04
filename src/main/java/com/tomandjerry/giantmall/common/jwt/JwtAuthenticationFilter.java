@@ -1,4 +1,4 @@
-package com.tomandjerry.giantmall.config;
+package com.tomandjerry.giantmall.common.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
