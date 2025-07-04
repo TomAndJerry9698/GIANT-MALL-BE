@@ -19,9 +19,6 @@ public class ProductCreateDto {
     @NotNull
     private int price;
 
-    @NotNull
-    private Long userId;
-
     public Product toEntity(User user) {
         return Product.builder()
             .name(this.getName())

@@ -72,7 +72,7 @@ public class JwtTokenProvider {
             .parseSignedClaims(token)
             .getPayload();
 
-        String email = claims.getSubject(); // sub
+        String email = claims.getSubject();
         UserDetails userDetails = userDetailsService.loadUserByUsername(email);
 
         return new UsernamePasswordAuthenticationToken(userDetails, token, userDetails.getAuthorities());
