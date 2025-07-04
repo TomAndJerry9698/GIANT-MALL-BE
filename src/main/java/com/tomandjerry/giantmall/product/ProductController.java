@@ -5,7 +5,6 @@ import com.tomandjerry.giantmall.product.dto.ProductCreateDto;
 import com.tomandjerry.giantmall.product.dto.ProductResponseDto;
 import com.tomandjerry.giantmall.product.dto.ProductUpdateDto;
 import com.tomandjerry.giantmall.user.CustomUserDetails;
-import com.tomandjerry.giantmall.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -21,7 +20,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-@Tag(name = "상품 API", description = "상품 등록/조회/수정/삭제 관련 API")
+@Tag(name = "상품 API", description = "상품 등록/조회/수정/삭제")
 @RestController
 @RequestMapping("/api/products")
 @RequiredArgsConstructor
@@ -35,8 +34,7 @@ public class ProductController {
         @AuthenticationPrincipal CustomUserDetails userDetails,
         @RequestBody @Valid ProductCreateDto dto
     ) {
-        User user = userDetails.getUser();
-        ProductResponseDto response = productService.createProduct(user, dto);
+        ProductResponseDto response = productService.createProduct(userDetails.getUser(), dto);
         return ApiResponseDto.success(response, "상품이 등록되었습니다.");
     }
 
@@ -44,11 +42,10 @@ public class ProductController {
     @PutMapping("/{id}")
     public ApiResponseDto<ProductResponseDto> updateProduct(
         @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable Long id,
+        @PathVariable("id") Long id,
         @RequestBody @Valid ProductUpdateDto dto
     ) {
-        User user = userDetails.getUser();
-        ProductResponseDto response = productService.updateProduct(user, id, dto);
+        ProductResponseDto response = productService.updateProduct(userDetails.getUser(), id, dto);
         return ApiResponseDto.success(response, "상품 수정 성공");
     }
 
@@ -56,20 +53,20 @@ public class ProductController {
     @DeleteMapping("/{id}")
     public ApiResponseDto<?> deleteProduct(
         @AuthenticationPrincipal CustomUserDetails userDetails,
-        @PathVariable Long id
+        @PathVariable("id") Long id
     ) {
-        User user = userDetails.getUser();
-        productService.deleteProduct(user, id);
+        productService.deleteProduct(userDetails.getUser(), id);
         return ApiResponseDto.success(null, "상품 삭제 성공");
     }
 
-    @Operation(summary = "상품 상세 조회", description = "상품 ID를 통해 상세 정보를 조회합니다.")
+    @Operation(summary = "상품 상세조회", description = "상품 ID를 통해 상세정보를 조회합니다.")
     @GetMapping("/{id}")
-    public ApiResponseDto<ProductResponseDto> getProduct(@PathVariable Long id) {
+    public ApiResponseDto<ProductResponseDto> getProduct(@PathVariable("id") Long id) {
         ProductResponseDto response = productService.getProduct(id);
         return ApiResponseDto.success(response, "상품 조회 성공");
     }
 
+    @Operation(summary = "상품 전체조회", description = "상품을 전체조회합니다.")
     @GetMapping
     public ApiResponseDto<List<ProductResponseDto>> getAllProducts() {
         List<ProductResponseDto> products = productService.getAllProducts();

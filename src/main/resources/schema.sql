@@ -2,7 +2,7 @@ CREATE TABLE IF NOT EXISTS `user` (
     `id` BIGINT NOT NULL AUTO_INCREMENT,
     `email` VARCHAR(100) NOT NULL UNIQUE,
     `password` VARCHAR(255) NOT NULL,
-    `name` VARCHAR(50) NOT NULL,
+    `name` VARCHAR(50),
     `phone` VARCHAR(13) NOT NULL,
     `role` ENUM('SELLER', 'BUYER', 'ADMIN') NOT NULL DEFAULT 'BUYER',
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -64,13 +64,13 @@ CREATE TABLE IF NOT EXISTS `product` (
 
     -- 연관 FK
 --    category_id BIGINT NULL,
-    seller_id   BIGINT NOT NULL,
+    user_id   BIGINT NOT NULL,
 
     `created_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `updated_at` TIMESTAMP NULL,
 
 --    FOREIGN KEY (category_id) REFERENCES category(id),
---    FOREIGN KEY (seller_id)   REFERENCES user(id),
+    FOREIGN KEY (user_id)   REFERENCES user(id),
     PRIMARY KEY (`id`)
 );
 
