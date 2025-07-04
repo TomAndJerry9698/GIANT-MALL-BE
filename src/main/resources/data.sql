@@ -1,9 +1,9 @@
 -- user 테이블 샘플 데이터 (실서비스에서는 암호화 필요)
 INSERT IGNORE INTO `user` (`email`, `password`, `name`, `phone`, `role`, `created_at`, `updated_at`)
 VALUES
-('buyer@naver.com',  'buyer123!', '송어진',  '01012345601', 'BUYER',  NOW(), NULL),
-('seller@naver.com', 'seller123!', '오승택', '01012345602', 'SELLER', NOW(), NULL),
-('admin@naver.com',  'admin123!',  '김관리',  '01012345603', 'ADMIN',  NOW(), NULL);
+('buyer@naver.com',  '$2a$12$RoO2ugcy0hPwlgAiaseFd.CaCl8y4AS9YJivylc6zxXEo0cP9TdRq', '송어진',  '01012345601', 'BUYER',  NOW(), NULL),
+('seller@naver.com', '$2a$12$/hf.upFplImqv19b1FP4IetYpLUtXzpRR2Lh06USija8LlmCaNTP2', '오승택', '01012345602', 'SELLER', NOW(), NULL),
+('admin@naver.com',  '$2a$12$iD6OMzxG0/.t27mDKifwqOooLTGJv/vqy0uF4uERVsY5x1bwhERNW',  '김관리',  '01012345603', 'ADMIN',  NOW(), NULL);
 
 -- product 테이블 샘플 데이터
 INSERT IGNORE INTO `product` (`name`, `description`, `price`, `user_id`, `created_at`, `updated_at`)
