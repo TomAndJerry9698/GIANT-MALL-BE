@@ -23,9 +23,6 @@ public class CartService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
 
-    /**
-     * 장바구니에 상품 추가 (중복시 수량 증가)
-     */
     public CartResponseDto addToCart(CartRequestDto dto) {
         User user = findUserById(dto.getUserId());
         Product product = findProductById(dto.getProductId());
@@ -43,34 +40,42 @@ public class CartService {
         return new CartResponseDto(savedCart);
     }
 
-    /**
-     * 사용자 장바구니 전체 조회
-     */
     public List<CartResponseDto> getUserCart(Long userId) {
         User user = findUserById(userId);
-
         return cartRepository.findAllByUser(user).stream()
             .map(CartResponseDto::new)
             .collect(Collectors.toList());
     }
 
-    /**
-     * 장바구니 수량 변경
-     */
     public CartResponseDto updateQuantity(Long cartId, int quantity) {
         Cart cart = findCartById(cartId);
         cart.updateQuantity(quantity);
         return new CartResponseDto(cart);
     }
 
-    /**
-     * 장바구니 항목 삭제
-     */
     public void deleteCartItem(Long cartId) {
         Cart cart = findCartById(cartId);
         cartRepository.delete(cart);
     }
-    
+
+    public void clearCart(Long userId) {
+        User user = findUserById(userId);
+        cartRepository.deleteAllByUser(user);
+    }
+
+    public void deleteCartItems(Long userId, List<Long> cartIds) {
+        List<Cart> carts = cartRepository.findAllById(cartIds);
+        List<Cart> userCarts = carts.stream()
+            .filter(cart -> cart.getUser().getId().equals(userId))
+            .toList();
+
+        if (userCarts.isEmpty()) {
+            throw new CustomException(ErrorCode.CART_ITEM_NOT_FOUND);
+        }
+
+        cartRepository.deleteAll(userCarts);
+    }
+
     private User findUserById(Long userId) {
         return userRepository.findById(userId)
             .orElseThrow(() -> new CustomException(ErrorCode.USER_NOT_FOUND));
